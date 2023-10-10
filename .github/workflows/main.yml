@@ -54,7 +54,7 @@ jobs:
         run: |
           choco install -y --no-progress msys2
           sh -l -c "pacman --noconfirm -S --needed base-devel ${MINGW_PACKAGE_PREFIX}-gcc ${MINGW_PACKAGE_PREFIX}-libevent ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-postgresql autoconf automake libtool python zip"
-          sh -l -c "make -j2"
+          sh -l -c "mingw-w64-x86_64-make -j2"
         if: ${{ matrix.runner == 'windows-latest' }}
 #            choco install -y --no-progress pandoc
 #            sh -l -c "./autogen.sh"
