@@ -10,7 +10,7 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
         basis: ["mac", "unix", "windows"]
-        runmech: "ubuntu-latest"
+#        runmech: "ubuntu-latest"
         include:
           - basis: "mac"
             runmech: "macos-latest-xlarge"
