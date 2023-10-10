@@ -41,7 +41,7 @@ jobs:
         env:
           STANC_ARCH: ${{ matrix.stancarch }}
         run: make -j2
-        if: ${{ matrix.runner == "ubuntu-latest" || matrix.runner == "macos-latest-xlarge" }}
+        if: ${{ matrix.runner == 'ubuntu-latest' || matrix.runner == 'macos-latest-xlarge' }}
 
       - name: Windows Build libraries used by Stan
         env:
