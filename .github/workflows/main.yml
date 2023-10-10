@@ -47,36 +47,36 @@ jobs:
         run: make -j2
         if: ${{ matrix.runner == 'ubuntu-latest' || matrix.runner == 'macos-latest-xlarge' }}
 
-      - name: Windows Build Prep
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW32
-          pacboy: toolchain:p
-          install: >-
-            base-devel
-#            git
-#            make
-        if: ${{ matrix.runner == 'windows-latest' }}
-
 #      - name: Windows Build Prep
 #        uses: msys2/setup-msys2@v2
 #        with:
-#          msystem: ucrt64
+#          msystem: MINGW32
+#          pacboy: toolchain:p
 #          install: >-
-#            mingw-w64-ucrt-x86_64-toolchain
 #            base-devel
-#            mingw-w64-x86_64-make
 ##            git
 ##            make
 #        if: ${{ matrix.runner == 'windows-latest' }}
+
+      - name: Windows Build Prep
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ucrt64
+          install: >-
+            mingw-w64-ucrt-x86_64-toolchain
+            base-devel
+            mingw-w64-x86_64-make
+#            git
+#            make
+        if: ${{ matrix.runner == 'windows-latest' }}
 
       - name: Windows Build libraries used by Stan
         env:
           STANC_ARCH: ${{ matrix.stancarch }}
         shell: msys2 {0}
         run: |
-          make -j2
-#          /mingw64/bin/mingw32-make -j2
+          /mingw64/bin/mingw32-make -j2
+#          make -j2
         if: ${{ matrix.runner == 'windows-latest' }}
 
 #        choco install -y --no-progress msys2
