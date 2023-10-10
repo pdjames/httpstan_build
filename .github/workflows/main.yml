@@ -10,18 +10,18 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
         basis: ["mac", "unix", "windows"]
-        runner: "ubuntu-latest"
+        runmech: "ubuntu-latest"
         include:
           - basis: "mac"
-            runner: "macos-latest-xlarge"
+            runmech: "macos-latest-xlarge"
             stanc_arch: "mac"
             buildcmd: "unix"
           - basis: "windows"
-            runner: "windows-latest"
+            runmech: "windows-latest"
             stanc_arch: "windows"
             buildcmd: "msbuild"
           - basis: "linux"
-            runner: "ubuntu-latest"
+            runmech: "ubuntu-latest"
             stanc_arch: "linux"
             buildcmd: "unix"
 #          - runner: <<ubuntu-22.04-raspberrypi-placeholder>>
