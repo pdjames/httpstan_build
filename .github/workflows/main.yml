@@ -8,23 +8,23 @@ jobs:
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        pyvers: ["3.9", "3.10", "3.11"]
         runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
         include:
           - runner: macos-latest-xlarge
-            stanc_arch: mac
-            buildcmd: unix
+            stancarch: mac
+#            buildcmd: unix
 
           - runner: windows-latest
-            stanc_arch: windows
-            buildcmd: msbuild
+            stancarch: windows
+#            buildcmd: msbuild
 
           - runner: ubuntu-latest
-            stanc_arch: linux
-            buildcmd: unix
+            stancarch: linux
+#            buildcmd: unix
 
 #          - runner: <<ubuntu-22.04-raspberrypi-placeholder>>
-#            stanc_arch: linux-arm64
+#            stancarch: linux-arm64
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -32,29 +32,28 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.pyvers }}
 
       - name: Install poetry
         run: pip install "poetry~=1.2"
 
-      - name: Unix - Build libraries used by Stan
+      - name: Unix Build libraries used by Stan
         env:
-          STANC_ARCH: ${{ matrix.stanc_arch }}
-        run: |
-          make -j2
-        if: ${{ matrix.buildcmd == 'unix' }}
+          STANC_ARCH: ${{ matrix.stancarch }}
+        run: make -j2
+        if: ${{ matrix.runner == "ubuntu-latest" || matrix.runner == "macos-latest-xlarge" }}
 
-      - name: Windows - Build libraries used by Stan
+      - name: Windows Build libraries used by Stan
         env:
-          STANC_ARCH: ${{ matrix.stanc_arch }}
+          STANC_ARCH: ${{ matrix.stancarch }}
         run: |
           choco install -y --no-progress msys2
           sh -l -c "pacman --noconfirm -S --needed base-devel ${MINGW_PACKAGE_PREFIX}-gcc ${MINGW_PACKAGE_PREFIX}-libevent ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-postgresql autoconf automake libtool python zip"
+          sh -l -c "make -j2"
+        if: ${{ matrix.runner == 'windows-latest' }}
 #            choco install -y --no-progress pandoc
 #            sh -l -c "./autogen.sh"
 #            sh -l -c "./configure --prefix=$HOME/install --enable-werror PANDOC=/c/programdata/chocolatey/bin/pandoc LDFLAGS=-static LIBS=-liphlpapi PKG_CONFIG='pkg-config --static'"
-          sh -l -c "make -j2"
-        if: ${{ matrix.buildcmd == 'msbuild' }}
 
       # export test dependencies from pyproject.toml, install them
       - name: Install dependencies
