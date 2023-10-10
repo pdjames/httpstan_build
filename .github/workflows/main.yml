@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        pyvers: ["3.9", "3.10", "3.11"]
+        pyvers: ["3.8", "3.9", "3.10", "3.11"]
         runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
         include:
           - runner: macos-latest-xlarge
@@ -25,6 +25,9 @@ jobs:
 
 #          - runner: <<ubuntu-22.04-raspberrypi-placeholder>>
 #            stancarch: linux-arm64
+        exclude:
+          - runner: macos-latest-xlarge
+            pyvers: "3.9"
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
