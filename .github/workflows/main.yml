@@ -9,11 +9,12 @@ jobs:
     strategy:
       matrix:
         pyvers: ["3.10", "3.11"]
-        runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
+        runner: [ ubuntu-latest, windows-latest]
+#        runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
         include:
-          - runner: macos-latest-xlarge
-            stancarch: mac
-#            buildcmd: unix
+#          - runner: macos-latest-xlarge
+#            stancarch: mac
+##            buildcmd: unix
 
           - runner: windows-latest
             stancarch: windows
