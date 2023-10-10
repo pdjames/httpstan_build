@@ -10,6 +10,7 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
         basis: [mac, unix, windows]
+        runner: none
         include:
           - basis: mac
             runner: macos-latest-xlarge
