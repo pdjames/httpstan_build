@@ -9,21 +9,20 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-        basis: ["mac", "unix", "windows"]
-#        runmech: "ubuntu-latest"
+        runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
         include:
-          - basis: "mac"
-            runmech: "macos-latest-xlarge"
-            stanc_arch: "mac"
-            buildcmd: "unix"
-          - basis: "windows"
-            runmech: "windows-latest"
-            stanc_arch: "windows"
-            buildcmd: "msbuild"
-          - basis: "linux"
-            runmech: "ubuntu-latest"
-            stanc_arch: "linux"
-            buildcmd: "unix"
+          - runner: macos-latest-xlarge
+            stanc_arch: mac
+            buildcmd: unix
+
+          - runner: windows-latest
+            stanc_arch: windows
+            buildcmd: msbuild
+
+          - runner: ubuntu-latest
+            stanc_arch: linux
+            buildcmd: unix
+
 #          - runner: <<ubuntu-22.04-raspberrypi-placeholder>>
 #            stanc_arch: linux-arm64
     steps:
