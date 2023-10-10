@@ -37,7 +37,7 @@ jobs:
         env:
           STANC_ARCH: ${{ matrix.stanc_arch }}
         run: make -j2
-        if: matrix.build == 'unix'
+        if: ${{ matrix.build == 'unix' }}
 
       - name: Windows - Build libraries used by Stan
         env:
@@ -49,7 +49,7 @@ jobs:
 #            sh -l -c "./autogen.sh"
 #            sh -l -c "./configure --prefix=$HOME/install --enable-werror PANDOC=/c/programdata/chocolatey/bin/pandoc LDFLAGS=-static LIBS=-liphlpapi PKG_CONFIG='pkg-config --static'"
             sh -l -c "make -j2"
-        if: matrix.build == 'msbuild'
+        if: ${{ matrix.build == 'msbuild' }}
 
       # export test dependencies from pyproject.toml, install them
       - name: Install dependencies
