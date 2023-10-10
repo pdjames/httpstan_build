@@ -73,9 +73,11 @@ jobs:
       - name: Windows Build libraries used by Stan
         env:
           STANC_ARCH: ${{ matrix.stancarch }}
+          HTTPSTAN_EXTRA_COMPILE_ARGS: "-O3 CXXFLAGS+=-Wno-nonnull -std=c++14 TBB_CXXFLAGS=-U__MSVCRT_VERSION__ -D__MSVCRT_VERSION__=0x0E00"
         shell: msys2 {0}
         run: |
-          /mingw64/bin/mingw32-make -j2
+          /mingw64/bin/mingw32-make -j2 
+
 #          make -j2
         if: ${{ matrix.runner == 'windows-latest' }}
 
