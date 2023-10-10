@@ -29,51 +29,51 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-#      - name: Set up Python
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: ${{ matrix.python-version }}
-#
-#      - name: Install poetry
-#        run: pip install "poetry~=1.2"
-#
-#      - name: Unix - Build libraries used by Stan
-#        env:
-#          STANC_ARCH: ${{ matrix.stanc_arch }}
-#        run: |
-#          make -j2
-#        if: ${{ matrix.buildcmd == 'unix' }}
-#
-#      - name: Windows - Build libraries used by Stan
-#        env:
-#          STANC_ARCH: ${{ matrix.stanc_arch }}
-#        run: |
-#          choco install -y --no-progress msys2
-#          sh -l -c "pacman --noconfirm -S --needed base-devel ${MINGW_PACKAGE_PREFIX}-gcc ${MINGW_PACKAGE_PREFIX}-libevent ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-postgresql autoconf automake libtool python zip"
-##            choco install -y --no-progress pandoc
-##            sh -l -c "./autogen.sh"
-##            sh -l -c "./configure --prefix=$HOME/install --enable-werror PANDOC=/c/programdata/chocolatey/bin/pandoc LDFLAGS=-static LIBS=-liphlpapi PKG_CONFIG='pkg-config --static'"
-#          sh -l -c "make -j2"
-#        if: ${{ matrix.buildcmd == 'msbuild' }}
-#
-#      # export test dependencies from pyproject.toml, install them
-#      - name: Install dependencies
-#        run: |
-#          poetry export -f requirements.txt --without-hashes --with dev -o requirements.txt \
-#          && pip install -r requirements.txt
-#
-#      - name: Check code
-#        run: scripts/check
-#
-#      - name: Build and Install wheel
-#        run: |
-#          poetry build -v
-#          python -m pip install dist/*.whl
-#
-#      - name: Run tests
-#        run: python -m pytest -s -v tests
-#
-#      - name: Test PyStan compatibility
-#        run: |
-#          pip install --pre pystan
-#          python -c'import stan;assert stan.build("parameters {real y;} model {y ~ normal(0,1);}").sample()["y"] is not None'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install poetry
+        run: pip install "poetry~=1.2"
+
+      - name: Unix - Build libraries used by Stan
+        env:
+          STANC_ARCH: ${{ matrix.stanc_arch }}
+        run: |
+          make -j2
+        if: ${{ matrix.buildcmd == 'unix' }}
+
+      - name: Windows - Build libraries used by Stan
+        env:
+          STANC_ARCH: ${{ matrix.stanc_arch }}
+        run: |
+          choco install -y --no-progress msys2
+          sh -l -c "pacman --noconfirm -S --needed base-devel ${MINGW_PACKAGE_PREFIX}-gcc ${MINGW_PACKAGE_PREFIX}-libevent ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-postgresql autoconf automake libtool python zip"
+#            choco install -y --no-progress pandoc
+#            sh -l -c "./autogen.sh"
+#            sh -l -c "./configure --prefix=$HOME/install --enable-werror PANDOC=/c/programdata/chocolatey/bin/pandoc LDFLAGS=-static LIBS=-liphlpapi PKG_CONFIG='pkg-config --static'"
+          sh -l -c "make -j2"
+        if: ${{ matrix.buildcmd == 'msbuild' }}
+
+      # export test dependencies from pyproject.toml, install them
+      - name: Install dependencies
+        run: |
+          poetry export -f requirements.txt --without-hashes --with dev -o requirements.txt \
+          && pip install -r requirements.txt
+
+      - name: Check code
+        run: scripts/check
+
+      - name: Build and Install wheel
+        run: |
+          poetry build -v
+          python -m pip install dist/*.whl
+
+      - name: Run tests
+        run: python -m pytest -s -v tests
+
+      - name: Test PyStan compatibility
+        run: |
+          pip install --pre pystan
+          python -c'import stan;assert stan.build("parameters {real y;} model {y ~ normal(0,1);}").sample()["y"] is not None'
