@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     strategy:
       matrix:
-        pyvers: ["3.8", "3.10", "3.11"]
+        pyvers: ["3.10", "3.11"]
         runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
         include:
           - runner: macos-latest-xlarge
