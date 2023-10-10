@@ -9,17 +9,17 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-        build-basis: ["mac", "unix", "windows" ]
+        build-basis: [mac, unix, windows]
         include:
-          - build-basis: "mac"
+          - build-basis: mac
             os: macos-latest-xlarge
             stanc_arch: mac
             build: unix
-          - build-basis: "windows"
+          - build-basis: windows
             os: windows-latest
             stanc_arch: windows
             build: msbuild
-          - build-basis: "linux"
+          - build-basis: linux
             os: ubuntu-20.04
             stanc_arch: linux
             build: unix
