@@ -1,6 +1,6 @@
 name: httpstan
 
-on: [push, pull_request]
+#on: [push, pull_request]
 
 jobs:
   tests:
@@ -64,7 +64,7 @@ jobs:
           STANC_ARCH: ${{ matrix.stancarch }}
         shell: msys2 {0}
         run: |
-          make -j2
+          /mingw64/bin/mingw32-make -j2
         if: ${{ matrix.runner == 'windows-latest' }}
 
 #        choco install -y --no-progress msys2
