@@ -54,6 +54,7 @@ jobs:
           install: >-
             mingw-w64-ucrt-x86_64-toolchain
             base-devel
+            mingw-w64-make
 #            git
 #            make
         if: ${{ matrix.runner == 'windows-latest' }}
