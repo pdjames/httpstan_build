@@ -51,7 +51,11 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: ucrt64
-          install: mingw-w64-ucrt-x86_64-toolchain
+          install: >-
+            mingw-w64-ucrt-x86_64-toolchain
+            base-devel
+#            git
+#            make
         if: ${{ matrix.runner == 'windows-latest' }}
 
       - name: Windows Build libraries used by Stan
