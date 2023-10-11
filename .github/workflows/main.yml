@@ -61,13 +61,14 @@ jobs:
       - name: Windows Build Prep
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: MINGW32
+#          msystem: MINGW64
 #          msystem: CLANG64
 #          msystem: ucrt64
           install: >-
-            mingw-w64-x86_64-toolchain
+            mingw-w32-x86_64-toolchain
             base-devel
-            mingw-w64-x86_64-make
+            mingw-w32-x86_64-make
 #            mingw-w64-clang-x86_64-toolchain
 #            mingw-w64-ucrt-x86_64-toolchain
 #            git
