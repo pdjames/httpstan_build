@@ -61,15 +61,14 @@ jobs:
       - name: Windows Build Prep
         uses: msys2/setup-msys2@v2
         with:
+          update: true
           msystem: MINGW64
 #          msystem: CLANG64
 #          msystem: ucrt64
+          pacboy: toolchain:p
           install: >-
-            mingw-w64-x86_64-toolchain
-#            mingw-w64-x86_64-make
+            mingw-w64-x86_64-make
 #            base-devel
-#            mingw-w64-clang-x86_64-toolchain
-#            mingw-w64-ucrt-x86_64-toolchain
 #            git
 #            make
         if: ${{ matrix.runner == 'windows-latest' }}
