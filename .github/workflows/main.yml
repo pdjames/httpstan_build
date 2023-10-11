@@ -8,19 +8,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
-        python-version: ["3.8", "3.9"]
-        include:
-          - os: ubuntu-20.04
-            python-version: "3.10"
-          - os: macos-11.0
-            python-version: "3.10"
-          - os: ubuntu-20.04
-            python-version: "3.11"
-          - os: ubuntu-22.04
-            python-version: "3.11"
-          - os: macos-11.0
-            python-version: "3.11"
+        os: [macos-latest-xlarge]
+        python-version: ["3.10", "3.11"]
+#        include:
+#          - os: ubuntu-20.04
+#            python-version: "3.10"
+#          - os: macos-11.0
+#            python-version: "3.10"
+#          - os: ubuntu-20.04
+#            python-version: "3.11"
+#          - os: ubuntu-22.04
+#            python-version: "3.11"
+#          - os: macos-11.0
+#            python-version: "3.11"
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -34,6 +34,8 @@ jobs:
         run: pip install "poetry~=1.2"
 
       - name: Build libraries used by Stan
+        env:
+          STANC_ARCH: mac
         run: make -j2
 
       # export test dependencies from pyproject.toml, install them
@@ -57,3 +59,11 @@ jobs:
         run: |
           pip install --pre pystan
           python -c'import stan;assert stan.build("parameters {real y;} model {y ~ normal(0,1);}").sample()["y"] is not None'
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: |
+            dist
+            !dist/*.tar.gz
