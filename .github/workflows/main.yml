@@ -5,30 +5,22 @@ on: [push, pull_request]
 jobs:
   tests:
     name: httpstan tests
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        pyvers: ["3.10", "3.11"]
-        runner: [ ubuntu-latest, windows-latest]
-#        runner: [macos-latest-xlarge, ubuntu-latest, windows-latest]
-        include:
-#          - runner: macos-latest-xlarge
-#            stancarch: mac
-##            buildcmd: unix
-
-          - runner: windows-latest
-            stancarch: windows
-#            buildcmd: msbuild
-
-          - runner: ubuntu-latest
-            stancarch: linux
-#            buildcmd: unix
-
-#          - runner: <<ubuntu-22.04-raspberrypi-placeholder>>
-#            stancarch: linux-arm64
-        exclude:
-          - runner: macos-latest-xlarge
-            pyvers: "3.9"
+        os: [macos-latest-xlarge]
+        python-version: ["3.10", "3.11"]
+#        include:
+#          - os: ubuntu-20.04
+#            python-version: "3.10"
+#          - os: macos-11.0
+#            python-version: "3.10"
+#          - os: ubuntu-20.04
+#            python-version: "3.11"
+#          - os: ubuntu-22.04
+#            python-version: "3.11"
+#          - os: macos-11.0
+#            python-version: "3.11"
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -36,58 +28,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.pyvers }}
+          python-version: ${{ matrix.python-version }}
 
       - name: Install poetry
         run: pip install "poetry~=1.2"
 
-      - name: Unix Build libraries used by Stan
+      - name: Build libraries used by Stan
         env:
-          STANC_ARCH: ${{ matrix.stancarch }}
+          STANC_ARCH: mac
         run: make -j2
-        if: ${{ matrix.runner == 'ubuntu-latest' || matrix.runner == 'macos-latest-xlarge' }}
-
-#      - name: Windows Build Prep
-#        uses: msys2/setup-msys2@v2
-#        with:
-#          msystem: MINGW32
-#          pacboy: toolchain:p
-#          install: >-
-#            base-devel
-##            git
-##            make
-#        if: ${{ matrix.runner == 'windows-latest' }}
-
-      - name: Windows Build Prep
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          msystem: MINGW64
-#          msystem: CLANG64
-#          msystem: ucrt64
-          pacboy: toolchain:p
-          install: >-
-            mingw-w64-x86_64-make
-#            base-devel
-#            git
-#            make
-        if: ${{ matrix.runner == 'windows-latest' }}
-
-      - name: Windows Build libraries used by Stan
-        env:
-          STANC_ARCH: ${{ matrix.stancarch }}
-        shell: msys2 {0}
-        run: |
-          PATH=/mingw64/bin/:$PATH CXX=g++ mingw32-make -j2 
-
-#          make -j2
-        if: ${{ matrix.runner == 'windows-latest' }}
-
-#        choco install -y --no-progress msys2
-#        sh -l -c "/usr/bin/pacman --noconfirm -S --needed base-devel ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc ${MINGW_PACKAGE_PREFIX}-libevent ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-postgresql autoconf automake libtool python zip"
-#            choco install -y --no-progress pandoc
-#            sh -l -c "./autogen.sh"
-#            sh -l -c "./configure --prefix=$HOME/install --enable-werror PANDOC=/c/programdata/chocolatey/bin/pandoc LDFLAGS=-static LIBS=-liphlpapi PKG_CONFIG='pkg-config --static'"
 
       # export test dependencies from pyproject.toml, install them
       - name: Install dependencies
@@ -110,3 +59,11 @@ jobs:
         run: |
           pip install --pre pystan
           python -c'import stan;assert stan.build("parameters {real y;} model {y ~ normal(0,1);}").sample()["y"] is not None'
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: |
+            dist
+#            !dist/**/*.md
