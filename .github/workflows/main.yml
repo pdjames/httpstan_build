@@ -66,4 +66,4 @@ jobs:
           name: dist
           path: |
             dist
-#            !dist/**/*.md
+            !dist/*.tar.gz
