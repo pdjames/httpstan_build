@@ -44,6 +44,7 @@ numpy = "^1.19"
 [tool.poetry.group.test.dependencies]
 pytest = { version = "6.2.5", python = "^3.6"}
 pytest-asyncio = { version = "0.15.1", python = "^3.6"}
+apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
 
 [tool.poetry.group.dev.dependencies]
 apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
