@@ -56,7 +56,7 @@ linux_x86_muslinux_task:
       - CIBW_BUILD: "cp310*"
       - CIBW_BUILD: "cp311*"
 #    CIBW_BEFORE_BUILD: "make"
-    CIBW_BEFORE_BUILD: "apk install -y lapack-devel blas-devel && make"
+    CIBW_BEFORE_BUILD: "apk add -y lapack-devel blas-devel && make"
     CIBW_ENVIRONMENT: STANC_ARCH=linux
 
   install_pre_requirements_script:
