@@ -166,7 +166,7 @@ httpstan/lib/libtbb%.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb%.dylib
 	cp $< httpstan/lib/$(notdir $<)
 	@rm -f $@
 	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
-else ifeq ($(OS),Windows_NT)
+else ifeq ($(STANC_ARCH),windows)
 httpstan/lib/libtbb.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb.dll
 	cp $< httpstan/lib/$(notdir $<)
 	@rm -f $@
