@@ -29,7 +29,6 @@ linux_x86_manylinux_task:
     CIBW_SKIP: "*musllinux*"
     <<: *common_env
     matrix:
-      - CIBW_BUILD: "cp36*"
       - CIBW_BUILD: "cp37*"
       - CIBW_BUILD: "cp38*"
       - CIBW_BUILD: "cp39*"
@@ -56,7 +55,6 @@ linux_aarch64_task:
   env:
     <<: *common_env
     matrix:
-      - CIBW_BUILD: "cp36*"
       - CIBW_BUILD: "cp37*"
       - CIBW_BUILD: "cp38*"
       - CIBW_BUILD: "cp39*"
@@ -76,7 +74,6 @@ macos_arm64_task:
   env:
     <<: *common_env
     matrix:
-      - CIBW_BUILD: "cp36*"
       - CIBW_BUILD: "cp37*"
       - CIBW_BUILD: "cp38*"
       - CIBW_BUILD: "cp39*"
