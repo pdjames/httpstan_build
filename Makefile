@@ -166,6 +166,16 @@ httpstan/lib/libtbb%.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb%.dylib
 	cp $< httpstan/lib/$(notdir $<)
 	@rm -f $@
 	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
+else ifeq ($(OS),Windows_NT)
+httpstan/lib/libtbb.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb.dll
+	cp $< httpstan/lib/$(notdir $<)
+	@rm -f $@
+	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
+
+httpstan/lib/libtbb%.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb%.dll
+	cp $< httpstan/lib/$(notdir $<)
+	@rm -f $@
+	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
 else
 httpstan/lib/libtbb.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb.so.2
 	cp $< httpstan/lib/$(notdir $<)
