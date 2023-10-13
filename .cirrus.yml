@@ -87,7 +87,7 @@ windows_x86_task:
     - C:\tools\msys64\usr\bin\bash -lc 'pacboy --noconfirm -S toolchain:p'  # Core update (in case any core packages are outdated)
     - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
     - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
-    - C:\tools\msys64\usr\bin\bash -lc 'make'
+    - C:\tools\msys64\usr\bin\bash -lc 'mingw32-make -j2'
 #    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
   <<: *BUILD_AND_STORE_WHEELS
 
