@@ -2,6 +2,9 @@
 
 pip install poetry
 python -m poetry -C $1 export -f requirements.txt --without-hashes --with test --without dev -o test_requirements.txt
+cat test_requirements.txt
+
 pip install -r test_requirements.txt
 
+echo "beginning testing"
 python -m pytest -s -v $1/tests
