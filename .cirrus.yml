@@ -7,6 +7,8 @@ common_env: &common_env
   CIBW_TEST_COMMAND: "chmod +x {project}/scripts/tests && {project}/scripts/tests"
 
 build_and_store_wheels: &BUILD_AND_STORE_WHEELS
+  install_poetry_script:
+    - pip install "poetry~=1.2"
   install_cibuildwheel_script:
     - python -m pip install cibuildwheel==2.16.0
   run_cibuildwheel_script:
