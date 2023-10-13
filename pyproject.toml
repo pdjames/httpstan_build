@@ -45,9 +45,12 @@ numpy = "^1.19"
 pytest = { version = "6.2.5", python = "^3.6"}
 pytest-asyncio = { version = "0.15.1", python = "^3.6"}
 apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
+openapi-spec-validator = { version = "0.5.7", extras = ["osv"], python = "^3.7"}
+prance = {version = "0.21.2", extras = ["osv"], optional = true, markers = "extra == \"validation\""}
 
 [tool.poetry.group.dev.dependencies]
 apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
+openapi-spec-validator = { version = "0.5.7", extras = ["osv"], python = "^3.7"}
 autoflake = { version = "1.7.8", python = "^3.6"}
 black = { version = "22.3.0", python = "^3.6"}
 isort = { version = "5.12.0", python = "^3.8"}

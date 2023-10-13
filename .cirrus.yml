@@ -74,13 +74,14 @@ macos_arm64_task:
   env:
     <<: *common_env
     matrix:
-      - CIBW_BUILD: "cp37*"
+#      - CIBW_BUILD: "cp37*" # currently not supported in cibuildwheels, check here for updates https://cibuildwheel.readthedocs.io/en/stable/options/#configuration-file
       - CIBW_BUILD: "cp38*"
       - CIBW_BUILD: "cp39*"
       - CIBW_BUILD: "cp310*"
       - CIBW_BUILD: "cp311*"
     PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
     CIBW_ENVIRONMENT: STANC_ARCH=mac
+    CIBW_BEFORE_ALL: pip install poetry
 
   install_pre_requirements_script:
     - brew install python@3.10
