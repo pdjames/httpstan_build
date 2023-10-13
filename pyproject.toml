@@ -38,9 +38,13 @@ webargs = "^8.0"
 marshmallow = "^3.10"
 numpy = "^1.19"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.test]  # This part can be left out
+
+[tool.poetry.group.test.dependencies]
 pytest = { version = "6.2.5", python = "^3.6"}
 pytest-asyncio = { version = "0.15.1", python = "^3.6"}
+
+[tool.poetry.dev-dependencies]
 apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
 autoflake = { version = "1.7.8", python = "^3.6"}
 black = { version = "22.3.0", python = "^3.6"}
