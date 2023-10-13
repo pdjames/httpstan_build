@@ -1,6 +1,7 @@
 #!/bin/bash
 
 pipx install poetry
+poetry lock
 poetry export -C $1 -f requirements.txt --without-hashes --with test --without dev -o test_requirements.txt
 cat test_requirements.txt
 
