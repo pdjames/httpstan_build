@@ -77,14 +77,15 @@ windows_x86_task:
 
   install_pre_requirements_script:
     - choco install -y --no-progress python3 --version 3.10.6
-    - choco install -y --no-progress msys2 pacman pacboy
-    - pacboy -S toolchain:p
+    - choco install -y --no-progress msys2 pacman
     - pacman -S mingw-w64-x86_64-make
+    - pacman -S pactoys
+    - pacboy -S toolchain:p
     - refreshenv
-    - C:\msys64\usr\bin\bash -lc ' '
-    - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
-    - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
-    - C:\msys64\usr\bin\bash -lc 'make'
+    - C:\tools\msys64\usr\bin\bash -lc ' '
+    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
+    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
+    - C:\tools\msys64\usr\bin\bash -lc 'make'
 #    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
   <<: *BUILD_AND_STORE_WHEELS
 
