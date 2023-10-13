@@ -2,4 +2,5 @@
 
 poetry export -f requirements.txt --without-hashes --with test -o test_requirements.txt
 pip install -r test_requirements.txt
+
 python -m pytest -s -v {package}/tests

@@ -38,7 +38,8 @@ webargs = "^8.0"
 marshmallow = "^3.10"
 numpy = "^1.19"
 
-[tool.poetry.group.test]  # This part can be left out
+#[tool.poetry.group.test]  # This part can be left out
+#optional = true
 
 [tool.poetry.group.test.dependencies]
 pytest = { version = "6.2.5", python = "^3.6"}
