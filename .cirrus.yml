@@ -16,7 +16,7 @@ build_and_store_wheels: &BUILD_AND_STORE_WHEELS
 
 
 linux_x86_task:
-  skip: "changesInclude('.cirrus.yml')"
+  skip: "!changesInclude('.cirrus.yml')"
   name: Build Linux x86 wheels.
   compute_engine_instance:
     image_project: cirrus-images
