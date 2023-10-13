@@ -28,6 +28,9 @@ linux_x86_manylinux_task:
     CIBW_SKIP: "*musllinux*"
     <<: *common_env
     matrix:
+      - CIBW_BUILD: "cp36*"
+      - CIBW_BUILD: "cp37*"
+      - CIBW_BUILD: "cp38*"
       - CIBW_BUILD: "cp39*"
       - CIBW_BUILD: "cp310*"
       - CIBW_BUILD: "cp311*"
@@ -38,31 +41,6 @@ linux_x86_manylinux_task:
     - apt install -y python3-venv python-is-python3
   <<: *BUILD_AND_STORE_WHEELS
 
-
-linux_x86_muslinux_task:
-  name: Build Linux x86 wheels.
-  compute_engine_instance:
-    image_project: cirrus-images
-    image: family/docker-builder
-    platform: linux
-    cpu: 4
-    memory: 4G
-
-  env:
-    CIBW_SKIP: "*manylinux*"
-    <<: *common_env
-    matrix:
-      - CIBW_BUILD: "cp39*"
-      - CIBW_BUILD: "cp310*"
-      - CIBW_BUILD: "cp311*"
-#    CIBW_BEFORE_BUILD: "make"
-    CIBW_BEFORE_BUILD: "
-curl --remote-name-all -LC- https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.35-r1/glibc{,-bin,-dev}-2.35-r1.apk && apk add glibc-2.35-r1.apk glibc-bin-2.35-r1.apk glibc-dev-2.35-r1.apk --allow-untrust --force-overwrite && apk add lapack-dev openblas-dev && g++ --version && make"
-    CIBW_ENVIRONMENT: STANC_ARCH=linux
-
-  install_pre_requirements_script:
-    - apt install -y python3-venv python-is-python3
-  <<: *BUILD_AND_STORE_WHEELS
 
 #linux_aarch64_task:
 #  name: Build Linux aarch64 wheels.
