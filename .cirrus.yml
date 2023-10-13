@@ -16,6 +16,7 @@ build_and_store_wheels: &BUILD_AND_STORE_WHEELS
 
 
 linux_x86_task:
+  skip: "!changesInclude('.cirrus.yml')"
   name: Build Linux x86 wheels.
   compute_engine_instance:
     image_project: cirrus-images
@@ -38,6 +39,7 @@ linux_x86_task:
   <<: *BUILD_AND_STORE_WHEELS
 
 linux_aarch64_task:
+  skip: "!changesInclude('.cirrus.yml')"
   name: Build Linux aarch64 wheels.
   compute_engine_instance:
     image_project: cirrus-images
@@ -59,31 +61,38 @@ linux_aarch64_task:
     - apt install -y python3-venv python-is-python3
   <<: *BUILD_AND_STORE_WHEELS
 
-#windows_x86_task:
-#  name: Build Windows x86 wheels.
-#  windows_container:
-#    image: cirrusci/windowsservercore:visualstudio2022
-#    cpu: 4
-#    memory: 4G
-#
-#  env:
-#    <<: *common_env
-#    CIBW_ENVIRONMENT: STANC_ARCH=windows
-#    CIBW_BEFORE_BUILD: wsl make
-#
-#  install_pre_requirements_script:
-#    - choco install -y --no-progress python3 --version 3.10.6
-#    - choco install -y --no-progress make
-#    - choco install -y --no-progress mingw
-#    - refreshenv
+windows_x86_task:
+  name: Build Windows x86 wheels.
+  windows_container:
+    image: cirrusci/windowsservercore:visualstudio2022
+    cpu: 4
+    memory: 4G
+
+  env:
+    <<: *common_env
+    CIBW_ENVIRONMENT: STANC_ARCH=windows
+    CIBW_BEFORE_BUILD: wsl make
+    MSYSTEM: MINGW64
+    CHERE_INVOKING: yes
+
+  install_pre_requirements_script:
+    - choco install -y --no-progress python3 --version 3.10.6
+    - choco install -y --no-progress msys2 pacman pacboy
+    - pacboy -S toolchain:p
+    - pacman -S mingw-w64-x86_64-make
+    - refreshenv
+    - C:\msys64\usr\bin\bash -lc ' '
+    - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
+    - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
+    - C:\msys64\usr\bin\bash -lc 'make'
 #    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
-#  <<: *BUILD_AND_STORE_WHEELS
+  <<: *BUILD_AND_STORE_WHEELS
 
 macos_arm64_task:
+  skip: "!changesInclude('.cirrus.yml')"
   name: Build macOS arm64 wheels.
   macos_instance:
     image: ghcr.io/cirruslabs/macos-monterey-xcode
-
   env:
     <<: *common_env
     matrix:
