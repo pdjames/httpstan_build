@@ -86,6 +86,7 @@ windows_x86_task:
     - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
     - C:\msys64\usr\bin\bash -lc 'make'
 #    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
+#    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
   <<: *BUILD_AND_STORE_WHEELS
 
 macos_arm64_task:
