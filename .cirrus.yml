@@ -42,43 +42,49 @@ linux_x86_manylinux_task:
   <<: *BUILD_AND_STORE_WHEELS
 
 
-#linux_aarch64_task:
-#  name: Build Linux aarch64 wheels.
-#  compute_engine_instance:
-#    image_project: cirrus-images
-#    image: family/docker-builder-arm64
-#    architecture: arm64
-#    platform: linux
-#    cpu: 4
-#    memory: 4G
-#
-#  env:
-#    <<: *common_env
-#    matrix:
-#      - CIBW_BUILD: "cp39*"
-#      - CIBW_BUILD: "cp310*"
-#      - CIBW_BUILD: "cp311*"
-#    CIBW_ENVIRONMENT: STANC_ARCH=linux-arm64
-#
-#  install_pre_requirements_script:
-#    - apt install -y python3-venv python-is-python3
-#  <<: *BUILD_AND_STORE_WHEELS
-#
-#macos_arm64_task:
-#  name: Build macOS arm64 wheels.
-#  macos_instance:
-#    image: ghcr.io/cirruslabs/macos-monterey-xcode
-#
-#  env:
-#    <<: *common_env
-#    matrix:
-#      - CIBW_BUILD: "cp39*"
-#      - CIBW_BUILD: "cp310*"
-#      - CIBW_BUILD: "cp311*"
-#    PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
-#    CIBW_ENVIRONMENT: STANC_ARCH=mac
-#
-#  install_pre_requirements_script:
-#    - brew install python@3.10
-#    - ln -s python3 /opt/homebrew/opt/python@3.10/bin/python
-#  <<: *BUILD_AND_STORE_WHEELS
+linux_aarch64_task:
+  name: Build Linux aarch64 wheels.
+  compute_engine_instance:
+    image_project: cirrus-images
+    image: family/docker-builder-arm64
+    architecture: arm64
+    platform: linux
+    cpu: 4
+    memory: 4G
+
+  env:
+    <<: *common_env
+    matrix:
+      - CIBW_BUILD: "cp36*"
+      - CIBW_BUILD: "cp37*"
+      - CIBW_BUILD: "cp38*"
+      - CIBW_BUILD: "cp39*"
+      - CIBW_BUILD: "cp310*"
+      - CIBW_BUILD: "cp311*"
+    CIBW_ENVIRONMENT: STANC_ARCH=linux-arm64
+
+  install_pre_requirements_script:
+    - apt install -y python3-venv python-is-python3
+  <<: *BUILD_AND_STORE_WHEELS
+
+macos_arm64_task:
+  name: Build macOS arm64 wheels.
+  macos_instance:
+    image: ghcr.io/cirruslabs/macos-monterey-xcode
+
+  env:
+    <<: *common_env
+    matrix:
+      - CIBW_BUILD: "cp36*"
+      - CIBW_BUILD: "cp37*"
+      - CIBW_BUILD: "cp38*"
+      - CIBW_BUILD: "cp39*"
+      - CIBW_BUILD: "cp310*"
+      - CIBW_BUILD: "cp311*"
+    PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
+    CIBW_ENVIRONMENT: STANC_ARCH=mac
+
+  install_pre_requirements_script:
+    - brew install python@3.10
+    - ln -s python3 /opt/homebrew/opt/python@3.10/bin/python
+  <<: *BUILD_AND_STORE_WHEELS
