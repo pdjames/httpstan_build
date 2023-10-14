@@ -39,9 +39,18 @@ linux_x86_manylinux_task:
       - CIBW_BUILD: "cp39*"
       - CIBW_BUILD: "cp310*"
       - CIBW_BUILD: "cp311*"
-    NUMPY_INSTALL_PREP: "yum install -y lapack-devel blas-devel"
-    CIBW_BEFORE_BUILD: "yum install -y lapack-devel blas-devel && make"
+    NUMPY_INSTALL_PREP: "yum install -y lapack-devel openblas-devel"
+    CIBW_BEFORE_BUILD: "yum install -y lapack-devel openblas-devel && make"
     CIBW_ENVIRONMENT: STANC_ARCH=linux
+
+  stan_libs_build_cache:
+    folder: build
+    reupload_on_changes: true
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - echo $CIRRUS_BRANCH
+      - cat Makefile
+    populate_script: mkdir build
 
   install_pre_requirements_script:
     - apt install -y python3-venv python-is-python3
