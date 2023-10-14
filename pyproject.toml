@@ -46,7 +46,7 @@ pytest = { version = "6.2.5", python = "^3.6"}
 pytest-asyncio = { version = "0.15.1", python = "^3.6"}
 apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
 openapi-spec-validator = { version = "0.5.7", extras = ["osv"], python = "^3.7"}
-prance = {version = "0.22.11.4", extras = ["osv"], markers = "extra == \"validation\"", python = "<3.7"}
+prance = {version = "0.22.11.4", extras = ["osv"], markers = "extra == \"validation\"", python = "^3.7"}
 PyYAML = {version = "6.0.1", extras=["yaml"], python = "<3.7"}
 packaging = {version = "21.3", python = "<3.7"}
 
