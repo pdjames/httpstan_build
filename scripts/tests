@@ -1,11 +1,12 @@
 #!/bin/bash
 
-pipx install poetry
+pip install poetry --upgrade
 poetry lock
-poetry export -C $1 -f requirements.txt --without-hashes --with test --without dev -o test_requirements.txt
-cat test_requirements.txt
+poetry show --tree
+poetry export -C $1 -f requirements.txt --without-hashes --with test --without dev -o $2'/test_requirements.txt'
+cat $2'/test_requirements.txt'
 
-pip install -r test_requirements.txt
+pip install -r $2'/test_requirements.txt'
 
 echo "beginning testing"
 python -m pytest -s -v $1/tests

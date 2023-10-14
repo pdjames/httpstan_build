@@ -15,5 +15,5 @@ logging.getLogger("httpstan").addHandler(logging.NullHandler())
 # try-except allows mypy to run without httpstan being installed
 try:
     __version__ = import_meta.version("httpstan")
-except importlib.metadata.PackageNotFoundError:
+except import_meta.PackageNotFoundError:
     pass
