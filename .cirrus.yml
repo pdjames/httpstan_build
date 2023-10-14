@@ -7,7 +7,8 @@ common_env: &common_env
   CIBW_TEST_COMMAND: "chmod +x {project}/scripts/tests && {project}/scripts/tests {package}"
 
 linux_env: &linux_env
-  CIBW_BEFORE_ALL: pipx install poetry
+  CIBW_BEFORE_ALL: pipx install poetry==1.6.0
+  # poetry is already there but seems it's 1.2, this will upgrade to most recent which will handle groups in pyproject.toml
 
 
 build_and_store_wheels: &BUILD_AND_STORE_WHEELS
@@ -38,6 +39,7 @@ linux_x86_manylinux_task:
       - CIBW_BUILD: "cp39*"
       - CIBW_BUILD: "cp310*"
       - CIBW_BUILD: "cp311*"
+    NUMPY_INSTALL_PREP: "yum install -y lapack-devel blas-devel"
     CIBW_BEFORE_BUILD: "yum install -y lapack-devel blas-devel && make"
     CIBW_ENVIRONMENT: STANC_ARCH=linux
 
