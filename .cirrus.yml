@@ -44,7 +44,7 @@ linux_x86_manylinux_task:
     CIBW_ENVIRONMENT: STANC_ARCH=linux
 
   stan_libs_build_cache:
-    folder: build
+    folder: httpstan_build/build
     reupload_on_changes: true
     fingerprint_script:
       - echo $CIRRUS_OS
