@@ -5,8 +5,8 @@ echo $2
 echo $2'/test_requirements.txt'
 
 pip install poetry --upgrade
-poetry lock
-poetry show --tree
+poetry lock -C $1
+poetry show -C $1 --tree
 poetry export -C $1 -f requirements.txt --without-hashes --with test --without dev -o $2'/test_requirements.txt'
 cat $2'/test_requirements.txt'
 
