@@ -48,7 +48,7 @@ apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
 openapi-spec-validator = { version = "0.5.7", extras = ["osv"], python = "^3.7"}
 prance = {version = "0.22.11.4", extras = ["osv"], markers = "extra == \"validation\""}
 PyYAML = {version = "6.0.1", extras=["yaml"]}
-packaging = {version = "23.1"}
+packaging = {version = "22.0"}
 
 [tool.poetry.group.dev.dependencies]
 apispec = { version = "4.7.1", extras = ["yaml", "validation"], python = "^3.6"}
