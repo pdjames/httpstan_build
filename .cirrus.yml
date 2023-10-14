@@ -10,6 +10,9 @@ linux_env: &linux_env
   CIBW_BEFORE_ALL: pipx install poetry==1.6.0
   # poetry is already there but seems it's 1.2, this will upgrade to most recent which will handle groups in pyproject.toml
 
+many_linux_env: &manylinux_env
+  CIBW_SKIP: "*musllinux*"
+
 
 build_and_store_wheels: &BUILD_AND_STORE_WHEELS
   install_cibuildwheel_script:
@@ -19,6 +22,15 @@ build_and_store_wheels: &BUILD_AND_STORE_WHEELS
   wheels_artifacts:
     path: "wheelhouse/*"
 
+cache_of_built_libraries: &CACHE_LIBS
+  stan_libs_build_cache:
+    folder: ${CIRRUS_WORKING_DIR}/httpstan_build/build
+    reupload_on_changes: true
+    fingerprint_script:
+      - echo $CIRRUS_OS
+      - echo $CIRRUS_BRANCH
+      - cat Makefile
+    populate_script: mkdir build
 
 linux_x86_manylinux_task:
   name: Build Linux x86 wheels.
@@ -30,9 +42,9 @@ linux_x86_manylinux_task:
     memory: 4G
 
   env:
-    CIBW_SKIP: "*musllinux*"
     <<: *common_env
     <<: *linux_env
+    <<: *manylinux_env
     matrix:
       - CIBW_BUILD: "cp37*"
       - CIBW_BUILD: "cp38*"
@@ -43,15 +55,7 @@ linux_x86_manylinux_task:
     CIBW_BEFORE_BUILD: "yum install -y lapack-devel openblas-devel && make"
     CIBW_ENVIRONMENT: STANC_ARCH=linux
 
-  stan_libs_build_cache:
-    folder: httpstan_build/build
-    reupload_on_changes: true
-    fingerprint_script:
-      - echo $CIRRUS_OS
-      - echo $CIRRUS_BRANCH
-      - cat Makefile
-    populate_script: mkdir build
-
+  <<: *CACHE_LIBS
   install_pre_requirements_script:
     - apt install -y python3-venv python-is-python3
   <<: *BUILD_AND_STORE_WHEELS
@@ -70,6 +74,7 @@ linux_aarch64_task:
   env:
     <<: *common_env
     <<: *linux_env
+    <<: *manylinux_env
     matrix:
       - CIBW_BUILD: "cp37*"
       - CIBW_BUILD: "cp38*"
@@ -78,6 +83,7 @@ linux_aarch64_task:
       - CIBW_BUILD: "cp311*"
     CIBW_ENVIRONMENT: STANC_ARCH=linux-arm64
 
+  <<: *CACHE_LIBS
   install_pre_requirements_script:
     - apt install -y python3-venv python-is-python3
   <<: *BUILD_AND_STORE_WHEELS
@@ -98,6 +104,7 @@ macos_arm64_task:
     PATH: /opt/homebrew/opt/python@3.10/bin:$PATH
     CIBW_ENVIRONMENT: STANC_ARCH=mac
 
+  <<: *CACHE_LIBS
   install_pre_requirements_script:
     - brew install python@3.10
     - ln -s python3 /opt/homebrew/opt/python@3.10/bin/python
