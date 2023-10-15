@@ -315,16 +315,16 @@ httpstan/include/Eigen: | build/math-$(MATH_VERSION)
 	@rm -rf $(addprefix httpstan/include/,$(EIGEN_INCLUDES))
 	cp -r $(addprefix build/math-$(MATH_VERSION)/lib/eigen_$(EIGEN_VERSION)/,$(EIGEN_INCLUDES)) httpstan/include
 
-#SUNDIALS_INCLUDES := cvodes idas kinsol nvector sundials sunlinsol sunmatrix sunmemory sunnonlinsol stan_sundials_printf_override.hpp sundials_debug.h
-#httpstan/include/sundials: | build/math-$(MATH_VERSION)
-#	@mkdir -p httpstan/include
-#	@rm -rf $(addprefix httpstan/include/,$(SUNDIALS_INCLUDES))
-#	cp -r $(addprefix stan/lib/stan_math/lib/sundials_$(SUNDIALS_VERSION)/include/,$(SUNDIALS_INCLUDES)) httpstan/include
-#
-#httpstan/include/tbb: | build/math-$(MATH_VERSION)
-#	@mkdir -p httpstan/include
-#	@rm -rf tbb
-#	cp -r build/math-$(MATH_VERSION)/lib/tbb_$(TBB_VERSION)/include/tbb httpstan/include
+SUNDIALS_INCLUDES := cvodes idas kinsol nvector sundials sunlinsol sunmatrix sunmemory sunnonlinsol stan_sundials_printf_override.hpp sundials_debug.h
+httpstan/include/sundials: | build/math-$(MATH_VERSION)
+	@mkdir -p httpstan/include
+	@rm -rf $(addprefix httpstan/include/,$(SUNDIALS_INCLUDES))
+	cp -r $(addprefix stan/lib/stan_math/lib/sundials_$(SUNDIALS_VERSION)/include/,$(SUNDIALS_INCLUDES)) httpstan/include
+
+httpstan/include/tbb: | build/math-$(MATH_VERSION)
+	@mkdir -p httpstan/include
+	@rm -rf tbb
+	cp -r build/math-$(MATH_VERSION)/lib/tbb_$(TBB_VERSION)/include/tbb httpstan/include
 
 ###############################################################################
 # Make local copies of shared libraries built by Stan Math's Makefile rules
