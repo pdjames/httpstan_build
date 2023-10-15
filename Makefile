@@ -81,6 +81,10 @@ $(HTTP_ARCHIVES_EXPANDED):
 $(shell uname -p):
 	@echo current architecture: $@
 
+ifndef STANC_ARCH
+$(error STANC_ARCH is not set)
+endif
+
 build/stanc:
 	@echo downloading StanC $(STANC_VERSION) $(STANC_ARCH)
 	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/$(STANC_ARCH)-stanc -o $@ --retry 5 --fail
