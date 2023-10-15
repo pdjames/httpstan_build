@@ -78,16 +78,13 @@ $(HTTP_ARCHIVES_EXPANDED):
 ###############################################################################
 # Download and install stanc
 ###############################################################################
-$(shell uname -p):
-	@echo current architecture: $@
-
-ifndef STANC_ARCH
-$(error STANC_ARCH is not set)
-endif
-
+ifeq ($(shell uname -s),Darwin)
 build/stanc:
-	@echo downloading StanC $(STANC_VERSION) $(STANC_ARCH)
-	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/$(STANC_ARCH)-stanc -o $@ --retry 5 --fail
+	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/mac-stanc -o $@ --retry 5 --fail
+else
+build/stanc:
+	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/linux-stanc -o $@ --retry 5 --fail
+endif
 
 $(STANC): build/stanc
 	rm -f $@ && cp -r $< $@ && chmod u+x $@
