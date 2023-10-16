@@ -14,19 +14,14 @@ jobs:
         include:
           - os: ubuntu-20.04
             python-version: "3.10"
-            stanc_vers: linux
           - os: macos-11.0
             python-version: "3.10"
-            stanc_vers: mac
           - os: ubuntu-20.04
             python-version: "3.11"
-            stanc_vers: linux
           - os: ubuntu-22.04
             python-version: "3.11"
-            stanc_vers: linux
           - os: macos-11.0
             python-version: "3.11"
-            stanc_vers: mac
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -40,8 +35,6 @@ jobs:
         run: pip install "poetry~=1.2"
 
       - name: Build libraries used by Stan
-        env:
-          STANC_ARCH: ${{ matrix.stanc_vers }}
         run: make -j2
 
       # export test dependencies from pyproject.toml, install them
@@ -75,7 +68,6 @@ jobs:
         os: [macos-latest-xlarge]
         python-version: ["3.10", "3.11"] # 3.{7,8,9} aren't released yet, see https://github.com/actions/python-versions/releases
 #        python-version: ["3.10", "3.11", "3.12"] # seems as though python 3.12 ships without distutils, need to revisit for a solution
-        stanc_vers: [mac]
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
