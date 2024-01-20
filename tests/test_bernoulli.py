@@ -9,7 +9,7 @@ import helpers
 program_code = """
     data {
         int<lower=0> N;
-        array[N] int<lower=0,upper=1> y;
+        int<lower=0,upper=1> y[N];
     }
     parameters {
         real<lower=0,upper=1> theta;

@@ -11,9 +11,9 @@
 
 PYBIND11_VERSION := 2.9.2
 RAPIDJSON_VERSION := 1.1.0
-STAN_VERSION := 2.33.0
-STANC_VERSION := 2.33.1
-MATH_VERSION := 4.7.0
+STAN_VERSION := 2.32.2
+STANC_VERSION := 2.32.2
+MATH_VERSION := 4.6.2
 # NOTE: boost, eigen, sundials, and tbb versions must match those found in Stan Math
 BOOST_VERSION := 1.78.0
 EIGEN_VERSION := 3.4.0
@@ -78,12 +78,13 @@ $(HTTP_ARCHIVES_EXPANDED):
 ###############################################################################
 # Download and install stanc
 ###############################################################################
-$(shell uname -p):
-	@echo current architecture: $@
-
+ifeq ($(shell uname -s),Darwin)
 build/stanc:
-	@echo downloading StanC $(STANC_VERSION) $(STANC_ARCH)
-	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/$(STANC_ARCH)-stanc -o $@ --retry 5 --fail
+	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/mac-stanc -o $@ --retry 5 --fail
+else
+build/stanc:
+	curl --location https://github.com/stan-dev/stanc3/releases/download/v$(STANC_VERSION)/linux-stanc -o $@ --retry 5 --fail
+endif
 
 $(STANC): build/stanc
 	rm -f $@ && cp -r $< $@ && chmod u+x $@
@@ -166,16 +167,6 @@ httpstan/lib/libtbb%.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb%.dylib
 	cp $< httpstan/lib/$(notdir $<)
 	@rm -f $@
 	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
-else ifeq ($(STANC_ARCH),windows)
-httpstan/lib/libtbb.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb.dll
-	cp $< httpstan/lib/$(notdir $<)
-	@rm -f $@
-	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
-
-httpstan/lib/libtbb%.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb%.dll
-	cp $< httpstan/lib/$(notdir $<)
-	@rm -f $@
-	cd $(dir $@) && cp $(notdir $<) $(notdir $@)
 else
 httpstan/lib/libtbb.so: build/math-$(MATH_VERSION)/lib/tbb/libtbb.so.2
 	cp $< httpstan/lib/$(notdir $<)
@@ -201,8 +192,6 @@ export MATH_VERSION
 SUNDIALS_LIBRARIES_BUILD_LOCATIONS := $(addprefix build/math-$(MATH_VERSION)/lib/sundials_$(SUNDIALS_VERSION)/lib/,$(notdir $(SUNDIALS_LIBRARIES)))
 ifeq ($(shell uname -s),Darwin)
   TBB_LIBRARIES_BUILD_LOCATIONS := build/math-$(MATH_VERSION)/lib/tbb/libtbb.dylib build/math-$(MATH_VERSION)/lib/tbb/libtbbmalloc.dylib build/math-$(MATH_VERSION)/lib/tbb/libtbbmalloc_proxy.dylib
-else ifeq ($(STANC_ARCH),windows)
-  TBB_LIBRARIES_BUILD_LOCATIONS := build/math-$(MATH_VERSION)/lib/tbb/libtbb.dll build/math-$(MATH_VERSION)/lib/tbb/libtbbmalloc.dll build/math-$(MATH_VERSION)/lib/tbb/libtbbmalloc_proxy.dll
 else
   TBB_LIBRARIES_BUILD_LOCATIONS := build/math-$(MATH_VERSION)/lib/tbb/libtbb.so.2 build/math-$(MATH_VERSION)/lib/tbb/libtbbmalloc.so.2 build/math-$(MATH_VERSION)/lib/tbb/libtbbmalloc_proxy.so.2
 endif
