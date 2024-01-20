@@ -60,39 +60,39 @@ build_and_store_wheels: &BUILD_AND_STORE_WHEELS
 #  install_pre_requirements_script:
 #    - apt install -y python3-venv python-is-python3
 #  <<: *BUILD_AND_STORE_WHEELS
-
-windows_x86_task:
-  name: Build Windows x86 wheels.
-  windows_container:
-    image: cirrusci/windowsservercore:visualstudio2022
-    cpu: 4
-    memory: 4G
-
-  env:
-    <<: *common_env
-    CIBW_ENVIRONMENT: STANC_ARCH=windows
-    CIBW_BEFORE_BUILD: wsl make
-    MSYSTEM: MINGW64
-    CHERE_INVOKING: yes
-    STANC_ARCH: windows
-
-  install_pre_requirements_script:
-    - choco install -y --no-progress python3 --version 3.10.6
-    - choco install -y --no-progress msys2 pacman
-    - refreshenv
-    - C:\tools\msys64\usr\bin\bash -lc ' '
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-x86_64-make'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-x86_64-lapack'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-x86_64-openblas'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S pactoys'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacboy --noconfirm -S toolchain:p'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
-    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
-    - C:\tools\msys64\usr\bin\bash -lc 'mingw32-make'
-#    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
-  <<: *BUILD_AND_STORE_WHEELS
+#
+#windows_x86_task:
+#  name: Build Windows x86 wheels.
+#  windows_container:
+#    image: cirrusci/windowsservercore:visualstudio2022
+#    cpu: 4
+#    memory: 4G
+#
+#  env:
+#    <<: *common_env
+#    CIBW_ENVIRONMENT: STANC_ARCH=windows
+#    CIBW_BEFORE_BUILD: wsl make
+#    MSYSTEM: MINGW64
+#    CHERE_INVOKING: yes
+#    STANC_ARCH: windows
+#
+#  install_pre_requirements_script:
+#    - choco install -y --no-progress python3 --version 3.10.6
+#    - choco install -y --no-progress msys2 pacman
+#    - refreshenv
+#    - C:\tools\msys64\usr\bin\bash -lc ' '
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-x86_64-make'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-x86_64-lapack'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S mingw-w64-x86_64-openblas'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -S pactoys'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacboy --noconfirm -S toolchain:p'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update (in case any core packages are outdated)
+#    - C:\tools\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
+#    - C:\tools\msys64\usr\bin\bash -lc 'mingw32-make'
+##    - echo PATH=%PATH% >> "%CIRRUS_ENV%"
+#  <<: *BUILD_AND_STORE_WHEELS
 
 #macos_arm64_task:
 #  skip: "changesInclude('.cirrus.yml')"
